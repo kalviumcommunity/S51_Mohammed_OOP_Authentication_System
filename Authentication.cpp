@@ -54,7 +54,7 @@ class UserManager {
                     return true;
                 }
             }
-            cout << "Login failed. Incorrect username or password." << endl;
+            cout << "Login failed, incorrect username or password." << endl;
             return false;
         }
 };
