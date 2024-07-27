@@ -7,13 +7,17 @@ class User {
     private:
         string username, password;
     public:
-        User(string name, string pass) {
-            this->username = name;
-            this->password = pass; 
+        User(string username, string password) {
+            this->username = username;
+            this->password = password;
         }
 
-        string getUsername() const { return username; }
-        string getPassword() const { return password; }
+        string getUsername() const { 
+            return this->username;
+        }
+        string getPassword() const { 
+            return this->password;
+        }
 };
 
 class UserManager {
