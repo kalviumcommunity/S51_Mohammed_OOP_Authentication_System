@@ -6,8 +6,11 @@ using namespace std;
 class User {
     private:
         string username, password;
+        static int totalUsers;
+        static int totalSuccessfulLogins;
     public:
         User(string username, string password) {
+            totalUsers++;
             this->username = username;
             this->password = password;
         }
@@ -20,6 +23,9 @@ class User {
             return this->password;
         }
 };
+
+int User::totalUsers = 0;
+int User::totalSuccessfulLogins = 0;
 
 class UserManager {
     private:
@@ -44,9 +50,10 @@ class UserManager {
 
         void displayUsers() const {
             for (int i = 0; i < users.size(); ++i) {
-                cout << "...Username: " << users[i].getUsername() << ", Password: " << users[i].getPassword() <<"..."<< endl;                
+                cout << "....." << (i + 1) << ". Username: \"" << users[i].getUsername() << "\", Password: \"" << users[i].getPassword() << "\"....." << endl;                
             }
         }
+
 
         bool login() {
             string username, password;
