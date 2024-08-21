@@ -15,6 +15,7 @@ class User {
         string getUsername() const { 
             return this->username;
         }
+        
         string getPassword() const { 
             return this->password;
         }
@@ -22,8 +23,7 @@ class User {
 
 class UserManager {
     private:
-        vector<User> users; 
-
+        vector<User> users;
         void getInputs(string &username, string &password) {
             cout << "Enter username: ";
             cin >> username;
@@ -43,8 +43,8 @@ class UserManager {
         }
 
         void displayUsers() const {
-            for (const auto& user : users) {
-                cout << "...Username: " << user.getUsername() << ", Password: " << user.getPassword() <<"..."<< endl;                
+            for (int i = 0; i < users.size(); ++i) {
+                cout << "...Username: " << users[i].getUsername() << ", Password: " << users[i].getPassword() <<"..."<< endl;                
             }
         }
 
@@ -52,8 +52,8 @@ class UserManager {
             string username, password;
             getInputs(username, password);
 
-            for (const auto& user : users) {
-                if (user.getUsername() == username && user.getPassword() == password) {
+            for (int i = 0; i < users.size(); ++i) {
+                if (users[i].getUsername() == username && users[i].getPassword() == password) {
                     cout << "Login successful!" << endl;
                     return true;
                 }
@@ -61,15 +61,29 @@ class UserManager {
             cout << "Login failed, incorrect username or password." << endl;
             return false;
         }
+
+        void logout() {
+            string username, password;
+            getInputs(username, password);
+
+            for (int i = 0; i < users.size(); ++i) {
+                if (users[i].getUsername() == username && users[i].getPassword() == password) {
+                    users.erase(users.begin() + i);
+                    cout << "Logout successful and user removed!" << endl;
+                    return;
+                }
+            }
+            cout << "Logout failed, user not found." << endl;
+        }   
 };
 
 class Menu {
     public:
         void displayMenu() {
-            cout << "1. Register\n2. Login\n3. Display Users\n4. Exit\n";
+            cout << "1. Register\n2. Login\n3. Display Users\n4. Logout\n";
         }
 
-       int getUserChoice() {
+        int getUserChoice() {
             int choice;
             while (true) {
                 cout << "Enter your choice: ";
@@ -87,28 +101,32 @@ class Menu {
 };
 
 int main() {
-    UserManager userManager;
-    Menu menu;
+    UserManager* userManager = new UserManager();
+    Menu* menu = new Menu();
     int choice;
 
     while (true) {
-        menu.displayMenu();
-        choice = menu.getUserChoice();
+        menu->displayMenu();
+        choice = menu->getUserChoice();
 
         switch (choice) {
             case 1:
-                userManager.Register();
+                userManager->Register();
                 break;
             case 2:
-                userManager.login();
+                userManager->login();
                 break;
             case 3:
-                userManager.displayUsers();
+                userManager->displayUsers();
                 break;
             case 4:
-                return 0;
+                userManager->logout();
+                break;
         }
     }
+
+    delete userManager;
+    delete menu;
 
     return 0;
 }
