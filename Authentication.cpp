@@ -22,6 +22,14 @@ class User {
         string getPassword() const { 
             return this->password;
         }
+
+        static int getTotalUsers(){
+            return totalUsers;
+        }
+
+        static int getTotalSussessfulLogins(){
+            return totalSuccessfulLogins;
+        }
 };
 
 int User::totalUsers = 0;
@@ -49,6 +57,7 @@ class UserManager {
         }
 
         void displayUsers() const {
+            cout<<"Total users: "<<User::getTotalUsers()<<endl;
             for (int i = 0; i < users.size(); ++i) {
                 cout << "....." << (i + 1) << ". Username: \"" << users[i].getUsername() << "\", Password: \"" << users[i].getPassword() << "\"....." << endl;                
             }
@@ -58,7 +67,8 @@ class UserManager {
         bool login() {
             string username, password;
             getInputs(username, password);
-
+            
+            cout<<"Total Successful Logins: "<<User::getTotalSussessfulLogins()<<endl;
             for (int i = 0; i < users.size(); ++i) {
                 if (users[i].getUsername() == username && users[i].getPassword() == password) {
                     cout << "Login successful!" << endl;
