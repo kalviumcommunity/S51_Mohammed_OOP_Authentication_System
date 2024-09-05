@@ -4,7 +4,7 @@
 using namespace std;
 
 class User {
-    private:
+    private: //Encapsulation 
         string username, password;
         static int totalUsers;
         static int totalSuccessfulLogins;
@@ -15,7 +15,7 @@ class User {
             this->password = password;
         }
 
-        string getUsername() const { 
+        string getUsername() const {  //Encapsulation
             return this->username;
         }
         
@@ -27,7 +27,7 @@ class User {
             return totalUsers;
         }
 
-        static int getTotalSussessfulLogins(){
+        static int getTotalSuccessfulLogins(){
             return totalSuccessfulLogins;
         }
 };
@@ -68,7 +68,7 @@ class UserManager {
             string username, password;
             getInputs(username, password);
             
-            cout<<"Total Successful Logins: "<<User::getTotalSussessfulLogins()<<endl;
+            cout<<"Total Successful Logins: "<<User::getTotalSuccessfulLogins()<<endl;
             for (int i = 0; i < users.size(); ++i) {
                 if (users[i].getUsername() == username && users[i].getPassword() == password) {
                     cout << "Login successful!" << endl;
@@ -118,6 +118,7 @@ class Menu {
 };
 
 int main() {
+
     UserManager* userManager = new UserManager();
     Menu* menu = new Menu();
     int choice;
