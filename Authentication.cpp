@@ -46,7 +46,7 @@ class UserManager {
         }
 
     public:
-        void Register() {
+        void Register() {  //Abstraction function
             string username, password;
             getInputs(username, password);
 
@@ -94,7 +94,7 @@ class UserManager {
         }   
 };
 
-class Menu {
+class Menu { //Abstraction class...
     public:
         void displayMenu() {
             cout << "1. Register\n2. Login\n3. Display Users\n4. Logout\n";
