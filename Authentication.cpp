@@ -7,7 +7,6 @@ using namespace std;
 class Person {
 protected:
     string name;
-<<<<<<< HEAD
     string email;
 
 public:
@@ -15,15 +14,6 @@ public:
 
     string getName() const { return name; }
     string getEmail() const { return email; }
-=======
-    string contactInfo;
-
-public:
-    Person(string name = "Unknown", string contactInfo = "None") : name(name), contactInfo(contactInfo) {}
-
-    string getName() const { return name; }
-    string getContactInfo() const { return contactInfo; }
->>>>>>> 2a62fab940d094b37883e5f374251787771198cb
 };
 
 // Derived class: User (Single Inheritance from Person)
@@ -34,13 +24,15 @@ protected:
 public:
     static int totalUsers;
 
-<<<<<<< HEAD
+    // Constructor with email
     User(string username, string password, string name, string email)
         : Person(name, email), username(username), password(password) {
-=======
-    User(string username, string password, string name, string contactInfo)
-        : Person(name, contactInfo), username(username), password(password) {
->>>>>>> 2a62fab940d094b37883e5f374251787771198cb
+        totalUsers++;
+    }
+
+    // Overloaded constructor without email
+    User(string username, string password, string name)
+        : Person(name, "None"), username(username), password(password) {
         totalUsers++;
     }
 
@@ -65,43 +57,25 @@ int User::totalUsers = 0;
 // Derived class: Admin (Inheritance from User)
 class Admin : public User {
 public:
-<<<<<<< HEAD
     Admin(string username, string password, string name, string email)
         : User(username, password, name, email) {}
-=======
-    Admin(string username, string password, string name, string contactInfo)
-        : User(username, password, name, contactInfo) {}
->>>>>>> 2a62fab940d094b37883e5f374251787771198cb
 
     void displayPrivileges() const override {
         cout << "Privileges: Can manage users, view logs, and perform administrative tasks.\n";
     }
 
-<<<<<<< HEAD
     void viewUsers(const vector<User>& users) {
         cout << "Total users: " << User::getTotalUsers() << endl;
         for (const auto& user : users) {
             cout << "User: " << user.getUsername() << ", Name: " << user.getName()
                  << ", Email: " << user.getEmail() << endl;
         }
-=======
-    void removeUser(vector<User>& users, const string& usernameToRemove) {
-        for (size_t i = 0; i < users.size(); ++i) {
-            if (users[i].getUsername() == usernameToRemove) {
-                users.erase(users.begin() + i);
-                cout << "User \"" << usernameToRemove << "\" has been removed by Admin.\n";
-                return;
-            }
-        }
-        cout << "User not found!\n";
->>>>>>> 2a62fab940d094b37883e5f374251787771198cb
     }
 };
 
 // Derived class: GuestUser (Hierarchical Inheritance from Person)
 class GuestUser : public Person {
 public:
-<<<<<<< HEAD
     GuestUser(string name, string email) : Person(name, email) {}
 
     void displayPrivileges() const {
@@ -124,6 +98,8 @@ public:
 
     void registerUser() {
         string username, password, name, email;
+        char emailChoice;
+
         cout << "Enter username: ";
         cin >> username;
         cout << "Enter password: ";
@@ -131,11 +107,19 @@ public:
         cin.ignore();  // Ignore newline before getline for name input
         cout << "Enter name: ";
         getline(cin, name);
-        cout << "Enter email: ";
-        cin >> email;
 
-        User newUser(username, password, name, email);
-        users.push_back(newUser);
+        cout << "Do you want to enter an email? (y/n): ";
+        cin >> emailChoice;
+
+        if (emailChoice == 'y' || emailChoice == 'Y') {
+            cout << "Enter email: ";
+            cin >> email;
+            User newUser(username, password, name, email);
+            users.push_back(newUser);
+        } else {
+            User newUser(username, password, name);  // Use overloaded constructor
+            users.push_back(newUser);
+        }
 
         cout << "Registration successful for user \"" << username << "\".\n";
         userLogoutMenu();  // Directly show logout menu after signup
@@ -219,76 +203,6 @@ public:
                 break;
             }
         }
-=======
-    GuestUser(string name, string contactInfo) : Person(name, contactInfo) {}
-
-    void displayPrivileges() const {
-        cout << "Privileges: Can browse without registration.\n";
-    }
-};
-
-// Class to manage Users
-class UserManager {
-private:
-    vector<User> users;
-    Admin admin;  // Admin user with special privileges
-
-public:
-    UserManager()
-        : admin("admin", "admin123", "Admin", "admin@admin.com") {
-        users.push_back(admin);
-        cout << "Admin account created: Username - " << admin.getUsername() << endl;
-    }
-
-    void Register() {
-        string username, password, name, contactInfo;
-        cout << "Enter username: ";
-        cin >> username;
-        cout << "Enter password: ";
-        cin >> password;
-        cout << "Enter name: ";
-        cin >> name;
-        cout << "Enter contact information: ";
-        cin >> contactInfo;
-
-        User newUser(username, password, name, contactInfo);
-        users.push_back(newUser);
-
-        cout << "Registration successful for user \"" << username << "\".\n";
-    }
-
-    void displayUsers() const {
-        cout << "Total users: " << User::getTotalUsers() << endl;
-        for (const auto& user : users) {
-            cout << "User: " << user.getUsername() << ", Name: " << user.getName()
-                 << ", Contact: " << user.getContactInfo() << endl;
-            user.displayPrivileges();  // Display privileges based on the user type
-        }
-    }
-
-    void login() {
-        string username, password;
-        cout << "Enter username: ";
-        cin >> username;
-        cout << "Enter password: ";
-        cin >> password;
-
-        for (const auto& user : users) {
-            if (user.getUsername() == username && user.getPassword() == password) {
-                cout << "Login successful! Welcome " << user.getName() << ".\n";
-                user.displayPrivileges();  // Show privileges based on user type
-                return;
-            }
-        }
-        cout << "Login failed, incorrect username or password.\n";
-    }
-
-    void adminRemoveUser() {
-        string usernameToRemove;
-        cout << "Enter username to remove: ";
-        cin >> usernameToRemove;
-        admin.removeUser(users, usernameToRemove);  // Admin removes a user
->>>>>>> 2a62fab940d094b37883e5f374251787771198cb
     }
 };
 
@@ -296,11 +210,7 @@ public:
 class Menu {
 public:
     void displayMenu() {
-<<<<<<< HEAD
         cout << "1. Signup\n2. Login\n3. Guest\n";
-=======
-        cout << "1. Register\n2. Login\n3. Display Users\n4. Admin Remove User\n";
->>>>>>> 2a62fab940d094b37883e5f374251787771198cb
     }
 
     int getUserChoice() {
@@ -309,17 +219,10 @@ public:
             cout << "Enter your choice: ";
             cin >> choice;
 
-<<<<<<< HEAD
             if (cin.fail() || choice < 1 || choice > 3) {
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "Invalid input. Please enter a number between 1 and 3." << endl;
-=======
-            if (cin.fail() || choice < 1 || choice > 4) {
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                cout << "Invalid input. Please enter a number between 1 and 4." << endl;
->>>>>>> 2a62fab940d094b37883e5f374251787771198cb
             } else {
                 return choice;
             }
@@ -344,14 +247,7 @@ int main() {
                 userManager->login();
                 break;
             case 3:
-<<<<<<< HEAD
                 userManager->guestLogin();
-=======
-                userManager->displayUsers();
-                break;
-            case 4:
-                userManager->adminRemoveUser();
->>>>>>> 2a62fab940d094b37883e5f374251787771198cb
                 break;
         }
     }
