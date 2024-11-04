@@ -5,6 +5,8 @@ using namespace std;
 
 //This class ensures Open/Closed Principle(OCP).
 // Base class: Person
+//This class creates virtual function to override fro base class, causing the objects of derieved class substitute base class objects.
+// Implemented Liskov's Substitution principle.
 class Person {
 protected:
     string name;
@@ -31,7 +33,6 @@ public:
     static int totalUsers;
 
     // default constructor
-    
      User() : Person(), username("Unknown"), password("None") {}
 
     // Constructor with email
@@ -133,8 +134,8 @@ public:
         }
 
         users.push_back(newUser);
-        User::totalUsers += 1;        // Increment the total users count
-        newUser.displayPrivileges(); // Corrected spelling to displayPrivileges
+        User::totalUsers += 1;
+        newUser.displayPrivileges();
         cout << "Registration successful for user " << username << endl;
         userLogoutMenu();  
     }
