@@ -3,6 +3,7 @@
 #include <limits>
 using namespace std;
 
+//This class ensures Open/Closed Principle(OCP).
 // Base class: Person
 class Person {
 protected:
